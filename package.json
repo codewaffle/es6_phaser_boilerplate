@@ -1,0 +1,33 @@
+{
+  "name": "es6_phaser_boilerplate",
+  "version": "0.0.1",
+  "description": "ES6/Phaser Boilerplate",
+  "dependencies": {
+    "phaser": "^2.6.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-env": "^1.1.5",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.0.0",
+    "mkdirp": "^0.5.1",
+    "npm-run-all": "^4.0.0",
+    "open-cli": "^1.0.5",
+    "rimraf": "^2.5.4",
+    "serve": "^5.2.1",
+    "watchify": "^3.8.0"
+  },
+  "scripts": {
+    "prebuild": "rimraf .build && mkdirp .build",
+    "build": "npm run build:js",
+    "postbuild": "cpx static/* .build/",
+    "build:js": "cross-env NODE_PATH=src browserify -t [babelify --presets [ env ] ] src/game.js -o .build/game.js",
+    "postbuild:js": "cpx ./node_modules/phaser/build/phaser.min.js .build/",
+    "serve": "serve .build/",
+    "watch": "cross-env NODE_PATH=src watchify -t [babelify --presets [ env ] ] src/game.js -o .build/game.js -v",
+    "open": "open-cli http://localhost:5000",
+    "dev": "npm-run-all --parallel watch serve open"
+  }
+}
